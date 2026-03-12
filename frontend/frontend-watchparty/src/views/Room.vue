@@ -178,7 +178,8 @@ const initPlayer = () => {
     playerVars: { 
       autoplay: 0, 
       controls: 1,
-      rel: 0
+      rel: 0,
+      origin: window.location.origin
     }
   });
 
