@@ -10,7 +10,10 @@ export function useWatchParty(roomId, onRemoteAction) {
   const isConnected = ref(false);
 
   const connect = (username) => {
-    socket.value = new WebSocket(`ws://localhost:8000/ws/${roomId}?username=${username}`);
+
+    const baseUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws';
+
+    socket.value = new WebSocket(`${baseUrl}/${roomId}?username=${username}`);
 
     socket.value.onopen = () => {
       isConnected.value = true;
