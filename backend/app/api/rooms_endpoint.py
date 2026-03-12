@@ -31,9 +31,7 @@ async def get_room(
     """
     try:
         service = RoomService(db)
-        print("antes da chamada")
         room = service.get_room(room_id)
-        print("depois da chamada")
         return {"room_id": room.id, "video_url": room.video_url}
 
     except ValueError as error:
