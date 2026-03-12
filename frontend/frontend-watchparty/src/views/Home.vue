@@ -40,9 +40,7 @@
 </template>
 
 <script setup>
-// Importamos a nossa lógica limpa e isolada
 import { useRoom } from '../composables/useRoom';
 
-// Extraímos exatamente o que o HTML precisa
 const { videoUrl, isLoading, errorMessage, createNewRoom } = useRoom();
 </script>
