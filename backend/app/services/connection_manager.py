@@ -20,6 +20,12 @@ class ConnectionManager:
             "ws": websocket,
             "username": username
         })
+        
+        await self.broadcast({
+            "action": "update_count",
+            "count": len(self.active_connections[room_id])
+        }, room_id)
+
         current_state = self.room_states[room_id]
         calculated_time = current_state["time"]
 
@@ -32,13 +38,19 @@ class ConnectionManager:
             "time": calculated_time
         })
 
-    def disconnect(self, websocket: WebSocket, room_id: str):
+    async def disconnect(self, websocket: WebSocket, room_id: str):
         """Remove o usuário da sala quando ele fechar a página."""
         if room_id in self.active_connections:
             self.active_connections[room_id] = [
                 conn for conn in self.active_connections[room_id] if conn["ws"] != websocket
             ]
-            if not self.active_connections[room_id]:
+
+            if self.active_connections[room_id]:
+                await self.broadcast({
+                    "action": "update_count",
+                    "count": len(self.active_connections[room_id])
+                }, room_id)
+            else:
                 del self.active_connections[room_id]
                 if room_id in self.room_states:
                     del self.room_states[room_id]
@@ -50,10 +62,9 @@ class ConnectionManager:
             self.room_states[room_id] = {
                 "action": message["action"],
                 "time": message["time"],
-                "updated_at": time.time() # Guarda a hora exata que a ação aconteceu
+                "updated_at": time.time() 
             }
 
-        # 7. Repassa a mensagem para todos
         if room_id in self.active_connections:
             for connection in self.active_connections[room_id]:
                 await connection["ws"].send_json(message)
@@ -63,5 +74,4 @@ class ConnectionManager:
         return len(self.active_connections.get(room_id, []))
     
 
-# Instância global que será importada pelas rotas
 manager = ConnectionManager()

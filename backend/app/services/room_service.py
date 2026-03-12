@@ -45,4 +45,4 @@ class RoomService:
                 await manager.broadcast(data, room_id)
                 
         except WebSocketDisconnect:
-            manager.disconnect(websocket, room_id)
+            await manager.disconnect(websocket, room_id)
