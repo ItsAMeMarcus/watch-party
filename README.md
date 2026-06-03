@@ -5,7 +5,7 @@
 
 Uma aplicação Fullstack em tempo real que permite aos usuários assistirem a vídeos do YouTube sincronizados, com suporte a chat ao vivo e arquitetura orientada a eventos.
 
-Este projeto foi desenvolvido como um desafio técnico, focado em alta performance, comunicação bidirecional via WebSockets e conteinerização.
+Este projeto foi desenvolvido focado em alta performance, comunicação bidirecional via WebSockets e conteinerização.
 
 ## 🚀 Funcionalidades
 
